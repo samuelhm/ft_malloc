@@ -2,8 +2,14 @@
 
 block_t	*find_free_block(zone_t *zone, size_t size)
 {
-	(void)zone;
-	(void)size;
+	block_t *current = zone->first_block;
+
+	while (current != NULL)
+	{
+		if (current->free && current->size >= size)
+			return (current);
+		current = current->next;
+	}
 	return (NULL);
 }
 

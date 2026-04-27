@@ -48,8 +48,15 @@ typedef struct s_zone
 	struct s_zone	*next;
 }				zone_t;
 
-#define BLOCK_SIZE ALIGN(sizeof(block_t))
-#define ZONE_SIZE ALIGN(sizeof(zone_t))
+typedef struct s_heap
+{
+	zone_t	*tiny_zones;
+	zone_t	*small_zones;
+	zone_t	*large_zones;
+}				heap_t;
+
+#define BLOCK_META_SIZE ALIGN(sizeof(block_t))
+#define ZONE_META_SIZE ALIGN(sizeof(zone_t))
 
 zone_type	get_zone_type(size_t size);
 void		*create_zone(zone_type type, size_t size);
