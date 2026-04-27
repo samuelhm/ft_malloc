@@ -1,26 +1,26 @@
 #include "internal.h"
 
-block	*find_free_block(zone *current_zone, size_t size)
+block_t	*find_free_block(zone_t *zone, size_t size)
 {
-	(void)current_zone;
+	(void)zone;
 	(void)size;
 	return (NULL);
 }
 
-block	*split_block(block *current_block, size_t size)
+block_t	*split_block(block_t *block, size_t size)
 {
-	(void)current_block;
+	(void)block;
 	(void)size;
 	return (NULL);
 }
 
-block	*get_block_from_ptr(void *ptr)
+block_t	*get_block_from_ptr(void *ptr)
 {
 	(void)ptr;
 	return (NULL);
 }
 
-void	coalesce_blocks(block *current_block)
+void	coalesce_blocks(block_t *block)
 {
-	(void)current_block;
+	(void)block;
 }
