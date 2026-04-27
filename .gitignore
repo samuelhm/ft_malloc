@@ -32,6 +32,6 @@ gmon.out
 
 # Project-local docs/plans to keep out of VCS
 subject.pdf
-PLAN.md
-PLAN2.md
-AGENTS.md
+#PLAN.md
+#PLAN2.md
+#AGENTS.md
