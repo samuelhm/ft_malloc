@@ -128,8 +128,8 @@ ft_malloc/
 - [x] Configurar libft como submódulo/subdirectorio
 
 ### Milestone 2: Malloc Básico
-- [ ] Implementar `get_zone_type(size)` - determinar TINY/SMALL/LARGE
-- [ ] Implementar `create_zone(type)` - hacer mmap de nueva zona
+- [x] Implementar `get_zone_type(size)` - determinar TINY/SMALL/LARGE
+- [x] Implementar `create_zone(type)` - hacer mmap de nueva zona
 - [ ] Implementar `find_free_block(zone, size)` - buscar bloque libre
 - [ ] Implementar `split_block(block, size)` - dividir bloque grande
 - [ ] Implementar `malloc(size)` - combinar todo lo anterior
@@ -171,10 +171,10 @@ ft_malloc/
 FUNCIÓN malloc(size):
     SI size == 0:
         RETORNAR NULL (o malloc(1) según implementación)
-    
+
     size = ALIGN(size)
     type = get_zone_type(size)
-    
+
     SI type == LARGE:
         block = mmap(size + BLOCK_SIZE)
         SI mmap falló:
@@ -182,14 +182,14 @@ FUNCIÓN malloc(size):
         inicializar block con size
         agregar a lista de zonas LARGE
         RETORNAR (block + BLOCK_SIZE)  // puntero para usuario
-    
+
     // TINY o SMALL
     zone = encontrar zona con espacio suficiente
     SI zone == NULL:
         zone = crear nueva zona(type)
         SI zona no se pudo crear:
             RETORNAR NULL
-    
+
     block = encontrar bloque libre en zone
     SI block->size > size + BLOCK_SIZE + ALIGNMENT:
         // El bloque es muy grande, dividirlo
@@ -197,7 +197,7 @@ FUNCIÓN malloc(size):
         new_block->size = block->size - size - BLOCK_SIZE
         new_block->free = 1
         block->size = size
-    
+
     block->free = 0
     RETORNAR (block + BLOCK_SIZE)
 ```
@@ -208,18 +208,18 @@ FUNCIÓN malloc(size):
 FUNCIÓN free(ptr):
     SI ptr == NULL:
         RETORNAR  // no hacer nada
-    
+
     block = (ptr - BLOCK_SIZE)
     SI block->free == 1:
         RETORNAR  // ya está libre, evitar double-free
-    
+
     block->free = 1
-    
+
     // Coalescing (fusionar con bloques libres adyacentes)
     SI block->next existe Y block->next->free == 1:
         block->size = block->size + BLOCK_SIZE + block->next->size
         block->next = block->next->next
-    
+
     // Opcional: si toda la zona está libre, hacer munmap
     // Solo para LARGE zones
 ```
@@ -230,25 +230,25 @@ FUNCIÓN free(ptr):
 FUNCIÓN realloc(ptr, size):
     SI ptr == NULL:
         RETORNAR malloc(size)
-    
+
     SI size == 0:
         free(ptr)
         RETORNAR NULL
-    
+
     block = (ptr - BLOCK_SIZE)
-    
+
     SI block->size >= size:
         // El bloque actual tiene espacio suficiente
         RETORNAR ptr
-    
+
     // Necesitamos más espacio
     new_ptr = malloc(size)
     SI new_ptr == NULL:
         RETORNAR NULL
-    
+
     // Copiar datos del bloque antiguo al nuevo
     memcpy(new_ptr, ptr, block->size)
-    
+
     free(ptr)
     RETORNAR new_ptr
 ```
@@ -304,7 +304,7 @@ Para ver qué está pasando:
 #ifdef DEBUG
 # define DPRINT(fmt, ...) fprintf(stderr, fmt, ##__VA_ARGS__)
 #else
-# define DPRINT(fmt, ...) 
+# define DPRINT(fmt, ...)
 #endif
 ```
 
@@ -360,13 +360,13 @@ int main() {
     char *str = malloc(100);
     sprintf(str, "Hello, ft_malloc!");
     printf("%s\n", str);
-    
+
     str = realloc(str, 200);
     sprintf(str, "Hello, ft_malloc! Expanded!");
     printf("%s\n", str);
-    
+
     free(str);
-    
+
     show_alloc_mem();
     return 0;
 }

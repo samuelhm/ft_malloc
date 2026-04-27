@@ -11,6 +11,8 @@ INCLUDES = -Iinclude -Ilibft/inc
 
 NAME = libft_malloc_$(HOSTTYPE).so
 LIBFT = libft/libft.a
+LIBFT_DIR = libft
+LIBFT_REPO = https://github.com/samuelhm/Libft42.git
 SRC = src/malloc.c \
 	  src/free.c \
 	  src/realloc.c \
@@ -26,14 +28,16 @@ ifeq ($(HOSTTYPE),)
 HOSTTYPE := $(shell uname -m)_$(shell uname -s)
 endif
 
-SRC =
-
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(LIBFT):
-	$(MAKE) -C libft
+	@if [ ! -f "$(LIBFT_DIR)/Makefile" ]; then \
+		echo "Fetching $(LIBFT_DIR)..."; \
+		git submodule update --init --recursive $(LIBFT_DIR) || { rm -rf $(LIBFT_DIR) && git clone $(LIBFT_REPO) $(LIBFT_DIR); }; \
+	fi
+	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -shared -o $@ $(OBJ) -Llibft -lft
@@ -49,9 +53,10 @@ debug: $(OBJ) $(LIBFT)
 
 clean:
 	rm -f $(OBJ)
+	@if [ -d "$(LIBFT_DIR)" ]; then $(MAKE) -C $(LIBFT_DIR) clean; fi
 
 fclean: clean
-	$(MAKE) -C libft fclean
+	@if [ -d "$(LIBFT_DIR)" ]; then $(MAKE) -C $(LIBFT_DIR) fclean; fi
 	rm -f $(NAME) libft_malloc.so
 
 re: fclean all

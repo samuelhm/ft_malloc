@@ -2,6 +2,7 @@
 
 void	*malloc(size_t size)
 {
-	(void)size;
+	if (size <= 0)
+		return (NULL);
 	return (NULL);
 }

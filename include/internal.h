@@ -1,8 +1,10 @@
 #ifndef INTERNAL_H
 # define INTERNAL_H
-
+# define _GNU_SOURCE // for MAP_ANONYMOUS in vscode's C17 standard library
 # include <stddef.h>
 # include <unistd.h>
+# include <sys/mman.h> // for mmap and munmap
+# include <stdint.h> // for SIZE_MAX
 
 
 #define ALIGNMENT 16
@@ -50,5 +52,6 @@ typedef struct s_zone
 #define ZONE_SIZE ALIGN(sizeof(zone_t))
 
 zone_type	get_zone_type(size_t size);
+void		*create_zone(zone_type type, size_t size);
 
 #endif
