@@ -15,15 +15,25 @@ block_t	*find_free_block(zone_t *zone, size_t size)
 
 block_t	*split_block(block_t *block, size_t size)
 {
-	(void)block;
-	(void)size;
-	return (NULL);
+	if (block->size <= size + BLOCK_META_SIZE)
+	{
+		block->free = 0;
+		return (block);
+	}
+	block_t *new_block = (block_t *)((char *)block + BLOCK_META_SIZE + size);
+	new_block->size = block->size - size - BLOCK_META_SIZE;
+	new_block->free = 1;
+	new_block->next = block->next;
+	new_block->prev = block;
+	block->size = size;
+	block->free = 0;
+	block->next = new_block;
+	return (new_block);
 }
 
 block_t	*get_block_from_ptr(void *ptr)
 {
-	(void)ptr;
-	return (NULL);
+	return ((block_t *)((char *)ptr - BLOCK_META_SIZE));
 }
 
 void	coalesce_blocks(block_t *block)

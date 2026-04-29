@@ -130,8 +130,8 @@ ft_malloc/
 ### Milestone 2: Malloc Básico
 - [x] Implementar `get_zone_type(size)` - determinar TINY/SMALL/LARGE
 - [x] Implementar `create_zone(type)` - hacer mmap de nueva zona
-- [ ] Implementar `find_free_block(zone, size)` - buscar bloque libre
-- [ ] Implementar `split_block(block, size)` - dividir bloque grande
+- [x] Implementar `find_free_block(zone, size)` - buscar bloque libre
+- [x] Implementar `split_block(block, size)` - dividir bloque grande
 - [ ] Implementar `malloc(size)` - combinar todo lo anterior
 
 ### Milestone 3: Free
