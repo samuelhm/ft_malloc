@@ -25,9 +25,11 @@ void	*create_zone(zone_type type, size_t size)
 		zone_size = SMALL_ZONE_SIZE;
 	else
 	{
+		//redondea need hacia arriba al múltiplo más cercano de pagesize.
+		//-1 es por el redondeo en C, 4097 / 4096 seria 1 en lugar de 2.
 		size_t pagesize = sysconf(_SC_PAGESIZE);
 		size_t need = size + ZONE_META_SIZE + BLOCK_META_SIZE;
-		zone_size = ((need + pagesize - 1) / pagesize) * pagesize;
+		zone_size = ((need + pagesize - 1) / pagesize) * pagesize; 
 	}
 
 	void *zone = mmap(NULL, zone_size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);

@@ -135,10 +135,10 @@ ft_malloc/
 - [x] Implementar `malloc(size)` - combinar todo lo anterior
 
 ### Milestone 3: Free
-- [ ] Implementar `get_block_from_ptr(ptr)` - obtener bloque desde puntero
+- [x] Implementar `get_block_from_ptr(ptr)` - obtener bloque desde puntero
 - [ ] Implementar `mark_block_free(block)`
-- [ ] Implementar `coalesce_blocks(zone)` - fusionar bloques libres adyacentes
-- [ ] Implementar `free(ptr)` - manejar NULL y liberar
+- [x] Implementar `coalesce_blocks(zone)` - fusionar bloques libres adyacentes
+- [x] Implementar `free(ptr)` - manejar NULL y liberar
 
 ### Milestone 4: Realloc
 - [ ] Implementar caso `realloc(NULL, size)` → malloc
