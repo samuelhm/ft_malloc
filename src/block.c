@@ -1,5 +1,7 @@
 #include "internal.h"
 
+static bool find_block_in_zone_list(zone_t *zone_list, void *ptr);
+
 block_t	*find_free_block(zone_t *zone, size_t size)
 {
 	block_t *current = zone->first_block;
@@ -54,4 +56,27 @@ void	coalesce_blocks(block_t *block)
 		if (block->next)
 			block->next->prev = block->prev;
 	}
+}
+
+bool	is_valid_ptr(void *ptr)
+{
+	return (find_block_in_zone_list(g_heap.tiny_zones, ptr)
+		|| find_block_in_zone_list(g_heap.small_zones, ptr)
+		|| find_block_in_zone_list(g_heap.large_zones, ptr));
+}
+
+static bool find_block_in_zone_list(zone_t *zone_list, void *ptr)
+{
+	while (zone_list)
+	{
+		block_t *block = zone_list->first_block;
+		while (block)
+		{
+			if ((void *)((char *)block + BLOCK_META_SIZE) == ptr)
+				return (!block->free);
+			block = block->next;
+		}
+		zone_list = zone_list->next;
+	}
+	return (false);
 }
