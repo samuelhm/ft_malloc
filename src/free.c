@@ -2,7 +2,7 @@
 #include <stdbool.h>
 
 static bool is_valid_ptr(void *ptr);
-static bool check_in_zone(zone_t *zone, void *ptr);
+static bool find_block_in_zone_list(zone_t *zone_list, void *ptr);
 
 void	free(void *ptr)
 {
@@ -33,20 +33,23 @@ void	free(void *ptr)
 
 static bool	is_valid_ptr(void *ptr)
 {
-	return (check_in_zone(g_heap.tiny_zones, ptr) || 
-			check_in_zone(g_heap.small_zones, ptr) || 
-			check_in_zone(g_heap.large_zones, ptr)
-			);
+	return (find_block_in_zone_list(g_heap.tiny_zones, ptr)
+		|| find_block_in_zone_list(g_heap.small_zones, ptr)
+		|| find_block_in_zone_list(g_heap.large_zones, ptr));
 }
 
-static bool check_in_zone(zone_t *zone, void *ptr)
+static bool find_block_in_zone_list(zone_t *zone_list, void *ptr)
 {
-	while (zone)
+	while (zone_list)
 	{
-		if (ptr >= (void *)((char *)zone + ZONE_META_SIZE + BLOCK_META_SIZE)
-			&& ptr < (void *)((char *)zone + zone->size))
-			return (true);
-		zone = zone->next;
+		block_t *block = zone_list->first_block;
+		while (block)
+		{
+			if ((void *)((char *)block + BLOCK_META_SIZE) == ptr)
+				return (!block->free);
+			block = block->next;
+		}
+		zone_list = zone_list->next;
 	}
 	return (false);
 }
