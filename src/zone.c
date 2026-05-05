@@ -24,7 +24,11 @@ void	*create_zone(zone_type type, size_t size)
 	else if (type == SMALL)
 		zone_size = SMALL_ZONE_SIZE;
 	else
-		zone_size = ALIGN(size + ZONE_META_SIZE + BLOCK_META_SIZE);
+	{
+		size_t pagesize = sysconf(_SC_PAGESIZE);
+		size_t need = size + ZONE_META_SIZE + BLOCK_META_SIZE;
+		zone_size = ((need + pagesize - 1) / pagesize) * pagesize;
+	}
 
 	void *zone = mmap(NULL, zone_size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 	if (zone == MAP_FAILED)

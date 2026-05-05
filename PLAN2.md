@@ -132,7 +132,7 @@ ft_malloc/
 - [x] Implementar `create_zone(type)` - hacer mmap de nueva zona
 - [x] Implementar `find_free_block(zone, size)` - buscar bloque libre
 - [x] Implementar `split_block(block, size)` - dividir bloque grande
-- [ ] Implementar `malloc(size)` - combinar todo lo anterior
+- [x] Implementar `malloc(size)` - combinar todo lo anterior
 
 ### Milestone 3: Free
 - [ ] Implementar `get_block_from_ptr(ptr)` - obtener bloque desde puntero

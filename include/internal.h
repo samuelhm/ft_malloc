@@ -60,5 +60,13 @@ typedef struct s_heap
 
 zone_type	get_zone_type(size_t size);
 void		*create_zone(zone_type type, size_t size);
+block_t		*find_free_block(zone_t *zone, size_t size);
+block_t		*split_block(block_t *block, size_t size);
+block_t		*get_block_from_ptr(void *ptr);
+void		coalesce_blocks(block_t *block);
+block_t		*split_block(block_t *block, size_t size);
+block_t		*find_free_block(zone_t *zone, size_t size);
+block_t		*get_block_from_ptr(void *ptr);
+void		coalesce_blocks(block_t *block);
 
 #endif

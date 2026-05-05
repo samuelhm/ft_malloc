@@ -25,10 +25,12 @@ block_t	*split_block(block_t *block, size_t size)
 	new_block->free = 1;
 	new_block->next = block->next;
 	new_block->prev = block;
+	if (new_block->next) 
+		new_block->next->prev = new_block;
 	block->size = size;
 	block->free = 0;
 	block->next = new_block;
-	return (new_block);
+	return (block);
 }
 
 block_t	*get_block_from_ptr(void *ptr)
