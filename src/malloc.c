@@ -1,6 +1,6 @@
- #include "internal.h"
+#include "internal.h"
 
-static heap_t g_heap = {0};
+heap_t g_heap = {0};
 
 static void	*allocate_in_zone_list(zone_type type, size_t asize);
 

@@ -55,6 +55,8 @@ typedef struct s_heap
 	zone_t	*large_zones;
 }				heap_t;
 
+extern heap_t	g_heap;
+
 #define BLOCK_META_SIZE ALIGN(sizeof(block_t))
 #define ZONE_META_SIZE ALIGN(sizeof(zone_t))
 

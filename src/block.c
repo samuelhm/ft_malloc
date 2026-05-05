@@ -40,8 +40,6 @@ block_t	*get_block_from_ptr(void *ptr)
 
 void	coalesce_blocks(block_t *block)
 {
-	if (!block || block->free)
-		return;
 	if (block->next && block->next->free)
 	{
 		block->size += BLOCK_META_SIZE + block->next->size;
